@@ -26,7 +26,7 @@
         <!-- Begin page -->
         <div class="wrapper">
 <?php
-include_once('layouts/sidebar.php');
+// include_once('layouts/sidebar.php');
 ?>
 
             <!-- ============================================================== -->
