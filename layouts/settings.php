@@ -19,12 +19,12 @@
         <hr class="mt-1" />
 
         <div class="form-check form-switch mb-1">
-            <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="dark" id="dark-mode-check"  >
+            <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="dark" id="dark-mode-check"  checked>
             <label class="form-check-label" for="dark-mode-check">Dark Mode</label>
         </div>
 
         <div class="form-check form-switch mb-1">
-            <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="light" id="light-mode-check" checked>
+            <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="light" id="light-mode-check" >
             <label class="form-check-label" for="light-mode-check">Light Mode</label>
         </div>
 
