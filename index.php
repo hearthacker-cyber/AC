@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html lang="en" data-menu-color="dark">
+    <html lang="en" >
 
     
 <!-- Mirrored from coderthemes.com/hyper/saas/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 10:18:47 GMT -->
@@ -22,7 +22,7 @@
 
     </head>
 
-    <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+    <body class="loading" data-layout-color="dark" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
         <!-- Begin page -->
         <div class="wrapper">
 <?php
