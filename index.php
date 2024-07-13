@@ -26,6 +26,8 @@
         <!-- Begin page -->
         <div class="wrapper">
 <?php
+include_once('layouts/header.php');  
+
 include_once('layouts/sidebar.php');
 ?>
 
@@ -34,7 +36,7 @@ include_once('layouts/sidebar.php');
             <!-- ============================================================== -->
 
             <div class="content-page">
-                <div class="content">
+                <div class="content"> 
   <?php
 include_once('layouts/topbar.php');
   ?>
