@@ -1,0 +1,175 @@
+[1mdiff --git a/index.php b/index.php[m
+[1mindex ec7d112..24db5b8 100644[m
+[1m--- a/index.php[m
+[1m+++ b/index.php[m
+[36m@@ -1,31 +1,6 @@[m
+[31m-<!DOCTYPE html>[m
+[31m-    <html lang="en" >[m
+[31m-[m
+[31m-    [m
+[31m-<!-- Mirrored from coderthemes.com/hyper/saas/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 10:18:47 GMT -->[m
+[31m-<head>[m
+[31m-        <meta charset="utf-8" />[m
+[31m-        <title>AC project demo</title>[m
+[31m-        <meta name="viewport" content="width=device-width, initial-scale=1.0">[m
+[31m-        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />[m
+[31m-        <meta content="Coderthemes" name="author" />[m
+[31m-        <!-- App favicon -->[m
+[31m-        <link rel="shortcut icon" href="assets/images/favicon.ico">[m
+[31m-[m
+[31m-        <!-- third party css -->[m
+[31m-        <link href="assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />[m
+[31m-        <!-- third party css end -->[m
+[31m-[m
+[31m-        <!-- App css -->[m
+[31m-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />[m
+[31m-        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style"/>[m
+[31m-[m
+[31m-    </head>[m
+[31m-[m
+[31m-    <body class="loading" data-layout-color="dark" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">[m
+[31m-        <!-- Begin page -->[m
+[31m-        <div class="wrapper">[m
+ <?php[m
+[32m+[m[32minclude_once('layouts/header.php');[m[41m  [m
+[32m+[m
+ include_once('layouts/sidebar.php');[m
+ ?>[m
+ [m
+[36m@@ -34,7 +9,7 @@[m [minclude_once('layouts/sidebar.php');[m
+             <!-- ============================================================== -->[m
+ [m
+             <div class="content-page">[m
+[31m-                <div class="content">[m
+[32m+[m[32m                <div class="content">[m[41m [m
+   <?php[m
+ include_once('layouts/topbar.php');[m
+   ?>[m
+[1mdiff --git a/layouts/footer.php b/layouts/footer.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e333d78[m
+[1m--- /dev/null[m
+[1m+++ b/layouts/footer.php[m
+[36m@@ -0,0 +1,55 @@[m
+[32m+[m[32m  <!-- Footer Start -->[m
+[32m+[m[32m  <footer class="footer">[m
+[32m+[m[32m                    <div class="container-fluid">[m
+[32m+[m[32m                        <div class="row">[m
+[32m+[m[32m                            <div class="col-md-6">[m
+[32m+[m[32m                                <script>document.write(new Date().getFullYear())</script> © Hyper - Coderthemes.com[m
+[32m+[m[32m                            </div>[m
+[32m+[m[32m                            <div class="col-md-6">[m
+[32m+[m[32m                                <div class="text-md-end footer-links d-none d-md-block">[m
+[32m+[m[32m                                    <a href="javascript: void(0);">About</a>[m
+[32m+[m[32m                                    <a href="javascript: void(0);">Support</a>[m
+[32m+[m[32m                                    <a href="javascript: void(0);">Contact Us</a>[m
+[32m+[m[32m                                </div>[m
+[32m+[m[32m                            </div>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                </footer>[m
+[32m+[m[32m                <!-- end Footer -->[m
+[32m+[m
+[32m+[m[32m            </div>[m
+[32m+[m
+[32m+[m[32m            <!-- ============================================================== -->[m
+[32m+[m[32m            <!-- End Page content -->[m
+[32m+[m[32m            <!-- ============================================================== -->[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <!-- END wrapper -->[m
+[32m+[m
+[32m+[m[32m        <!-- Right Sidebar -->[m
+[32m+[m[32m<?php[m
+[32m+[m[32minclude_once('layouts/settings.php');[m
+[32m+[m
+[32m+[m[32m?>[m
+[32m+[m
+[32m+[m[32m        <div class="rightbar-overlay"></div>[m
+[32m+[m[32m        <!-- /End-bar -->[m
+[32m+[m
+[32m+[m[32m        <!-- bundle -->[m
+[32m+[m[32m        <script src="assets/js/vendor.min.js"></script>[m
+[32m+[m[32m        <script src="assets/js/app.min.js"></script>[m
+[32m+[m
+[32m+[m[32m        <!-- third party js -->[m
+[32m+[m[32m        <script src="assets/js/vendor/apexcharts.min.js"></script>[m
+[32m+[m[32m        <script src="assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>[m
+[32m+[m[32m        <script src="assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>[m
+[32m+[m[32m        <!-- third party js ends -->[m
+[32m+[m
+[32m+[m[32m        <!-- demo app -->[m
+[32m+[m[32m        <script src="assets/js/pages/demo.dashboard.js"></script>[m
+[32m+[m[32m        <!-- end demo js-->[m
+[32m+[m[32m    </body>[m
+[32m+[m
+[32m+[m[32m<!-- Mirrored from coderthemes.com/hyper/saas/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 10:20:07 GMT -->[m
+[32m+[m[32m</html>[m
+\ No newline at end of file[m
+[1mdiff --git a/layouts/header.php b/layouts/header.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b7aea1a[m
+[1m--- /dev/null[m
+[1m+++ b/layouts/header.php[m
+[36m@@ -0,0 +1,27 @@[m
+[32m+[m[32m<!DOCTYPE html>[m
+[32m+[m[32m    <html lang="en" >[m
+[32m+[m
+[32m+[m[41m    [m
+[32m+[m[32m<!-- Mirrored from coderthemes.com/hyper/saas/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 10:18:47 GMT -->[m
+[32m+[m[32m<head>[m
+[32m+[m[32m        <meta charset="utf-8" />[m
+[32m+[m[32m        <title>AC project demo</title>[m
+[32m+[m[32m        <meta name="viewport" content="width=device-width, initial-scale=1.0">[m
+[32m+[m[32m        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />[m
+[32m+[m[32m        <meta content="Coderthemes" name="author" />[m
+[32m+[m[32m        <!-- App favicon -->[m
+[32m+[m[32m        <link rel="shortcut icon" href="assets/images/favicon.ico">[m
+[32m+[m
+[32m+[m[32m        <!-- third party css -->[m
+[32m+[m[32m        <link href="assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />[m
+[32m+[m[32m        <!-- third party css end -->[m
+[32m+[m
+[32m+[m[32m        <!-- App css -->[m
+[32m+[m[32m        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />[m
+[32m+[m[32m        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style"/>[m
+[32m+[m
+[32m+[m[32m    </head>[m
+[32m+[m
+[32m+[m[32m    <body class="loading" data-layout-color="dark" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">[m
+[32m+[m[32m        <!-- Begin page -->[m
+[32m+[m[32m        <div class="wrapper"></div>[m
+\ No newline at end of file[m
+[1mdiff --git a/layouts/sidebar.php b/layouts/sidebar.php[m
+[1mindex eea2be9..4d42686 100644[m
+[1m--- a/layouts/sidebar.php[m
+[1m+++ b/layouts/sidebar.php[m
+[36m@@ -682,7 +682,15 @@[m
+                     </ul>[m
+ [m
+                     <!-- Help Box -->[m
+[31m-                    <!-- -->[m
+[32m+[m[32m                    <!-- <div class="help-box text-white text-center">[m
+[32m+[m[32m                        <a href="javascript: void(0);" class="float-end close-btn text-white">[m
+[32m+[m[32m                            <i class="mdi mdi-close"></i>[m
+[32m+[m[32m                        </a>[m
+[32m+[m[32m                        <img src="assets/images/help-icon.svg" height="90" alt="Helper Icon Image" />[m
+[32m+[m[32m                        <h5 class="mt-3">Unlimited Access</h5>[m
+[32m+[m[32m                        <p class="mb-3">Upgrade to plan to get access to unlimited reports</p>[m
+[32m+[m[32m                        <a href="javascript: void(0);" class="btn btn-secondary btn-sm">Upgrade</a>[m
+[32m+[m[32m                    </div> -->[m
+                     <!-- end Help Box -->[m
+                     <!-- End Sidebar -->[m
+ [m
+[36m@@ -692,4 +700,7 @@[m
+                 <!-- Sidebar -left -->[m
+ [m
+             </div>[m
+[31m-            <!-- Left Sidebar End -->[m
+\ No newline at end of file[m
+[32m+[m[32m            <!-- Left Sidebar End -->[m
+[41m+[m
+[41m+[m
+[41m+            [m
+\ No newline at end of file[m
