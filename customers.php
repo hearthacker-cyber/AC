@@ -1,5 +1,5 @@
 <?php
-require 'config.php';
+require 'layouts/includes/config.php';
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
