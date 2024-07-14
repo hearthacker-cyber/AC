@@ -28,12 +28,14 @@ require 'layouts/includes/config.php';
                                         <th>Service Date</th>
                                         <th>Next Service Date</th>
                                         <th>Service Cost</th>
+                                        <th>Payment Mode</th>
+                                        <th>Payment ID</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $sql = "SELECT id, customer_name, phone_number, service_type, address, service_date, next_service_date, service_cost FROM customers ORDER BY service_date DESC";
+                                    $sql = "SELECT id, customer_name, phone_number, service_type, address, service_date, next_service_date, service_cost, payment_mode, payment_id FROM customers ORDER BY service_date DESC";
                                     $result = $conn->query($sql);
 
                                     if ($result->num_rows > 0) {
@@ -46,14 +48,16 @@ require 'layouts/includes/config.php';
                                                 <td>{$row['service_date']}</td>
                                                 <td>{$row['next_service_date']}</td>
                                                 <td>₹{$row['service_cost']}</td>
+                                                <td>{$row['payment_mode']}</td>
+                                                <td>{$row['payment_id']}</td>
                                                 <td>
                                                     <button class='btn btn-sm btn-warning' data-bs-toggle='modal' data-bs-target='#editCustomerModal' onclick='loadCustomerData({$row['id']})'><i class='mdi mdi-lead-pencil'></i></button>
-                                                    <button class='btn btn-sm btn-danger' onclick='deleteCustomer({$row['id']})'><i class='mdi mdi-delete'></<Delete</button>
+                                                    <button class='btn btn-sm btn-danger' onclick='deleteCustomer({$row['id']})'><i class='mdi mdi-delete'></i>Delete</button>
                                                 </td>
                                             </tr>";
                                         }
                                     } else {
-                                        echo "<tr><td colspan='8' class='text-center'>No records found</td></tr>";
+                                        echo "<tr><td colspan='10' class='text-center'>No records found</td></tr>";
                                     }
                                     ?>
                                 </tbody>
@@ -89,8 +93,7 @@ require 'layouts/includes/config.php';
                     </div>
                     <div class="mb-3">
                         <label for="serviceType" class="form-label">Service Type</label>
-                        <select class="form-control" id="serviceType" name="serviceType" required
-                            onchange="toggleOtherServiceField()">
+                        <select class="form-control" id="serviceType" name="serviceType" required onchange="toggleOtherServiceField()">
                             <option value="AC Service">AC Service</option>
                             <option value="Washing Machine Service">Washing Machine Service</option>
                             <option value="Others">Others</option>
@@ -112,6 +115,14 @@ require 'layouts/includes/config.php';
                         <label for="serviceCost" class="form-label">Service Cost</label>
                         <input type="number" class="form-control" id="serviceCost" name="serviceCost" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="paymentMode" class="form-label">Payment Mode</label>
+                        <select class="form-control" id="paymentMode" name="paymentMode" required>
+                            <option value="Cash">Cash</option>
+                            <option value="Online Payment">Online Payment</option>
+                        </select>
+                    </div>
+                    <input type="hidden" id="paymentId" name="paymentId">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -123,8 +134,7 @@ require 'layouts/includes/config.php';
 </div>
 
 <!-- Edit Customer Modal -->
-<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="./edit_customer.php" method="post">
@@ -144,8 +154,7 @@ require 'layouts/includes/config.php';
                     </div>
                     <div class="mb-3">
                         <label for="editServiceType" class="form-label">Service Type</label>
-                        <select class="form-control" id="editServiceType" name="serviceType" required
-                            onchange="toggleEditOtherServiceField()">
+                        <select class="form-control" id="editServiceType" name="serviceType" required onchange="toggleEditOtherServiceField()">
                             <option value="AC Service">AC Service</option>
                             <option value="Washing Machine Service">Washing Machine Service</option>
                             <option value="Others">Others</option>
@@ -167,6 +176,14 @@ require 'layouts/includes/config.php';
                         <label for="editServiceCost" class="form-label">Service Cost</label>
                         <input type="number" class="form-control" id="editServiceCost" name="serviceCost" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="editPaymentMode" class="form-label">Payment Mode</label>
+                        <select class="form-control" id="editPaymentMode" name="paymentMode" required>
+                            <option value="Cash">Cash</option>
+                            <option value="Online Payment">Online Payment</option>
+                        </select>
+                    </div>
+                    <input type="hidden" id="editPaymentId" name="paymentId">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -179,75 +196,43 @@ require 'layouts/includes/config.php';
 
 <script>
 function toggleOtherServiceField() {
-    var serviceType = document.getElementById('serviceType').value;
-    var otherServiceTypeField = document.getElementById('otherServiceTypeField');
-    if (serviceType === 'Others') {
-        otherServiceTypeField.style.display = 'block';
-    } else {
-        otherServiceTypeField.style.display = 'none';
-    }
+    var serviceType = document.getElementById("serviceType").value;
+    document.getElementById("otherServiceTypeField").style.display = serviceType === "Others" ? "block" : "none";
 }
 
 function toggleEditOtherServiceField() {
-    var serviceType = document.getElementById('editServiceType').value;
-    var otherServiceTypeField = document.getElementById('editOtherServiceTypeField');
-    if (serviceType === 'Others') {
-        otherServiceTypeField.style.display = 'block';
-    } else {
-        otherServiceTypeField.style.display = 'none';
-    }
+    var serviceType = document.getElementById("editServiceType").value;
+    document.getElementById("editOtherServiceTypeField").style.display = serviceType === "Others" ? "block" : "none";
 }
 
 function loadCustomerData(id) {
-    // Fetch customer data using AJAX
     fetch(`./get_customer.php?id=${id}`)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('editCustomerId').value = data.id;
-            document.getElementById('editCustomerName').value = data.customer_name;
-            document.getElementById('editPhoneNumber').value = data.phone_number;
-            document.getElementById('editServiceType').value = data.service_type;
-            if (data.service_type === 'Others') {
-                document.getElementById('editOtherServiceTypeField').style.display = 'block';
-                document.getElementById('editOtherServiceType').value = data.other_service_type;
-            } else {
-                document.getElementById('editOtherServiceTypeField').style.display = 'none';
-            }
-            document.getElementById('editAddress').value = data.address;
-            document.getElementById('editServiceDate').value = data.service_date;
-            document.getElementById('editServiceCost').value = data.service_cost;
-        })
-        .catch(error => console.error('Error fetching customer data:', error));
+            document.getElementById("editCustomerId").value = data.id;
+            document.getElementById("editCustomerName").value = data.customer_name;
+            document.getElementById("editPhoneNumber").value = data.phone_number;
+            document.getElementById("editServiceType").value = data.service_type;
+            document.getElementById("editAddress").value = data.address;
+            document.getElementById("editServiceDate").value = data.service_date;
+            document.getElementById("editServiceCost").value = data.service_cost;
+            document.getElementById("editPaymentMode").value = data.payment_mode;
+            document.getElementById("editPaymentId").value = data.payment_id;
+            toggleEditOtherServiceField();
+        });
 }
 
 function deleteCustomer(id) {
-    if (confirm('Are you sure you want to delete this customer?')) {
-        window.location.href = `./delete_customer.php?id=${id}`;
+    if (confirm("Are you sure you want to delete this customer?")) {
+        fetch(`./delete_customer.php?id=${id}`, { method: 'DELETE' })
+            .then(response => response.text())
+            .then(result => {
+                if (result === "success") {
+                    location.reload();
+                } else {
+                    alert("Failed to delete customer. Please try again.");
+                }
+            });
     }
 }
 </script>
-
-<?php
-// Handle adding new customer
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['customerName'])) {
-    $customerName = $_POST['customerName'];
-    $phoneNumber = $_POST['phoneNumber'];
-    $serviceType = $_POST['serviceType'];
-    $otherServiceType = $_POST['otherServiceType'] ?? '';
-    $address = $_POST['address'];
-    $serviceDate = $_POST['serviceDate'];
-    $serviceCost = $_POST['serviceCost'];
-
-    if ($serviceType === 'Others') {
-        $serviceType = $otherServiceType;
-    }
-
-    $sql = "INSERT INTO customers (customer_name, phone_number, service_type, address, service_date, service_cost) VALUES ('$customerName', '$phoneNumber', '$serviceType', '$address', '$serviceDate', '$serviceCost')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Customer added successfully!'); window.location.href = './customers.php';</script>";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-}
-?>
