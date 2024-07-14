@@ -19,7 +19,7 @@ include_once('layouts/topbar.php');
 
                        <?php
                      include_once('plugins/grids.php');
-                     include_once('plugins/chart.php');
+                     include_once('plugins/table.php');
                      include_once('plugins/bars.php');
                        ?>
 

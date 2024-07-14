@@ -1,13 +1,20 @@
+<?php
+// Include the config file to connect to the database
+require_once 'layouts/includes/config.php';
+?>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h4 class="header-title">Customers</h4>
+                    <h4 class="header-title">Latest Services</h4>
                     <div class="dropdown">
                         <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
+                        <button type="button"  data-bs-toggle="modal" data-bs-target="#addCustomerModal" class="btn btn-light"><i class="mdi mdi-account-plus"></i> Add New Service </button>
+
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
                             <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add New Customer</a>
@@ -27,98 +34,123 @@
                                 <th>Service Date</th>
                                 <th>Next Service Date</th>
                                 <th>Service Cost</th>
-                                <th>Actions</th>
+                                <!-- <th>Actions</th> -->
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Plumbing</td>
-                                <td>123 Main St, Springfield</td>
-                                <td>2024-07-01</td>
-                                <td>2024-08-01</td>
-                                <td>$150</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger" onclick="deleteCustomer('John Doe')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>Electrical</td>
-                                <td>456 Elm St, Springfield</td>
-                                <td>2024-07-05</td>
-                                <td>2024-09-05</td>
-                                <td>$200</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger" onclick="deleteCustomer('Jane Smith')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Michael Johnson</td>
-                                <td>Landscaping</td>
-                                <td>789 Oak St, Springfield</td>
-                                <td>2024-07-10</td>
-                                <td>2024-07-24</td>
-                                <td>$100</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger" onclick="deleteCustomer('Michael Johnson')">Delete</button>
-                                </td>
-                            </tr>
-                            <!-- Add more customer rows as needed -->
+                            <?php
+                            // Fetch customer data from the database
+                            $sql = "SELECT id, customer_name, service_type, address, service_date, next_service_date, service_cost FROM customers ORDER BY id DESC LIMIT 5";
+                            if($result = $conn->query($sql)){
+                                while($row = $result->fetch_assoc()){
+                                    echo "<tr>
+                                            <td>{$row['customer_name']}</td>
+                                            <td>{$row['service_type']}</td>
+                                            <td>{$row['address']}</td>
+                                            <td>{$row['service_date']}</td>
+                                            <td>{$row['next_service_date']}</td>
+                                            <td>₹{$row['service_cost']}</td>
+                                           
+                                        </tr>";
+                                }
+                                $result->free();
+                            } else {
+                                echo "<tr><td colspan='7'>No records found.</td></tr>";
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
             </div> <!-- end card-body-->
+            <button type="button" class="btn btn-primary "><i class="mdi mdi-account-multiple"></i> <b>View All</b> </button>
+
         </div> <!-- end card-->
     </div> <!-- end col-->
 </div> <!-- end row-->
 
-<!-- Add Customer Modal -->
-<div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Edit Customer Modal -->
+<div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="./customers.php" method="post">
+            <form id="editCustomerForm" method="post" action="update_customer.php">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addCustomerModalLabel">Add New Customer</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="editCustomerModalLabel">Edit Customer</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="customerName" class="form-label">Customer Name</label>
-                        <input type="text" class="form-control" id="customerName" name="customerName" required>
+                    <input type="hidden" id="editCustomerId" name="id">
+                    <div class="form-group">
+                        <label for="editCustomerName">Customer Name</label>
+                        <input type="text" class="form-control" id="editCustomerName" name="customer_name" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="serviceType" class="form-label">Service Type</label>
-                        <input type="text" class="form-control" id="serviceType" name="serviceType" required>
+                    <div class="form-group">
+                        <label for="editServiceType">Service Type</label>
+                        <input type="text" class="form-control" id="editServiceType" name="service_type" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" required>
+                    <div class="form-group">
+                        <label for="editAddress">Address</label>
+                        <textarea class="form-control" id="editAddress" name="address" required></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label for="serviceDate" class="form-label">Service Date</label>
-                        <input type="date" class="form-control" id="serviceDate" name="serviceDate" required>
+                    <div class="form-group">
+                        <label for="editServiceDate">Service Date</label>
+                        <input type="date" class="form-control" id="editServiceDate" name="service_date" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="nextServiceDate" class="form-label">Next Service Date</label>
-                        <input type="date" class="form-control" id="nextServiceDate" name="nextServiceDate" required>
+                    <div class="form-group">
+                        <label for="editNextServiceDate">Next Service Date</label>
+                        <input type="date" class="form-control" id="editNextServiceDate" name="next_service_date" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="serviceCost" class="form-label">Service Cost</label>
-                        <input type="number" class="form-control" id="serviceCost" name="serviceCost" required>
+                    <div class="form-group">
+                        <label for="editServiceCost">Service Cost</label>
+                        <input type="number" step="0.01" class="form-control" id="editServiceCost" name="service_cost" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Customer</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    // JavaScript to populate the edit modal with customer data
+    var editCustomerModal = document.getElementById('editCustomerModal');
+    editCustomerModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var customerId = button.getAttribute('data-id');
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'get_customer.php?id=' + customerId, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var customer = JSON.parse(xhr.responseText);
+                document.getElementById('editCustomerId').value = customer.id;
+                document.getElementById('editCustomerName').value = customer.customer_name;
+                document.getElementById('editServiceType').value = customer.service_type;
+                document.getElementById('editAddress').value = customer.address;
+                document.getElementById('editServiceDate').value = customer.service_date;
+                document.getElementById('editNextServiceDate').value = customer.next_service_date;
+                document.getElementById('editServiceCost').value = customer.service_cost;
+            }
+        }
+        xhr.send();
+    });
+
+    // JavaScript to handle customer deletion
+    function deleteCustomer(id) {
+        if(confirm("Are you sure you want to delete this customer?")) {
+            window.location.href = 'delete_customer.php?id=' + id;
+        }
+    }
+</script>
+<?php
+
+include_once('add_customer_model.php');
+?>
+
 
 <!-- Edit Customer Modal -->
 <div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">

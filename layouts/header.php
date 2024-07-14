@@ -18,7 +18,12 @@
 
         <!-- App css -->
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/vendor/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style"/>
+        <link href="assets/css/vendor/buttons.bootstrap5.css" rel="stylesheet" type="text/css" />
+        <!-- <link href="assets/css/vendor/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" /> -->
+     
+
 
     </head>
 
