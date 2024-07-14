@@ -10,14 +10,17 @@ require_once 'layouts/includes/config.php';
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <h4 class="header-title">Latest Services</h4>
                     <div class="dropdown">
-                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
-                        <button type="button"  data-bs-toggle="modal" data-bs-target="#addCustomerModal" class="btn btn-light"><i class="mdi mdi-account-plus"></i> Add New Service </button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#addCustomerModal"
+                            class="btn btn-light"><i class="mdi mdi-account-plus"></i> Add New Service </button>
 
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add New Customer</a>
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#addCustomerModal">Add New Customer</a>
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item">Export Data</a>
                         </div>
@@ -41,8 +44,8 @@ require_once 'layouts/includes/config.php';
                             <?php
                             // Fetch customer data from the database
                             $sql = "SELECT id, customer_name, service_type, address, service_date, next_service_date, service_cost FROM customers ORDER BY id DESC LIMIT 5";
-                            if($result = $conn->query($sql)){
-                                while($row = $result->fetch_assoc()){
+                            if ($result = $conn->query($sql)) {
+                                while ($row = $result->fetch_assoc()) {
                                     echo "<tr>
                                             <td>{$row['customer_name']}</td>
                                             <td>{$row['service_type']}</td>
@@ -62,14 +65,17 @@ require_once 'layouts/includes/config.php';
                     </table>
                 </div>
             </div> <!-- end card-body-->
-            <button type="button" class="btn btn-primary "><i class="mdi mdi-account-multiple"></i> <b>View All</b> </button>
+            <a href="view_customers.php" class="btn btn-primary">
+                <i class="mdi mdi-account-multiple"></i> <b>View All</b>
+            </a>
 
         </div> <!-- end card-->
     </div> <!-- end col-->
 </div> <!-- end row-->
 
 <!-- Edit Customer Modal -->
-<div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+<div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form id="editCustomerForm" method="post" action="update_customer.php">
@@ -99,11 +105,13 @@ require_once 'layouts/includes/config.php';
                     </div>
                     <div class="form-group">
                         <label for="editNextServiceDate">Next Service Date</label>
-                        <input type="date" class="form-control" id="editNextServiceDate" name="next_service_date" required>
+                        <input type="date" class="form-control" id="editNextServiceDate" name="next_service_date"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="editServiceCost">Service Cost</label>
-                        <input type="number" step="0.01" class="form-control" id="editServiceCost" name="service_cost" required>
+                        <input type="number" step="0.01" class="form-control" id="editServiceCost" name="service_cost"
+                            required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -116,44 +124,45 @@ require_once 'layouts/includes/config.php';
 </div>
 
 <script>
-    // JavaScript to populate the edit modal with customer data
-    var editCustomerModal = document.getElementById('editCustomerModal');
-    editCustomerModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget;
-        var customerId = button.getAttribute('data-id');
-        
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'get_customer.php?id=' + customerId, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var customer = JSON.parse(xhr.responseText);
-                document.getElementById('editCustomerId').value = customer.id;
-                document.getElementById('editCustomerName').value = customer.customer_name;
-                document.getElementById('editServiceType').value = customer.service_type;
-                document.getElementById('editAddress').value = customer.address;
-                document.getElementById('editServiceDate').value = customer.service_date;
-                document.getElementById('editNextServiceDate').value = customer.next_service_date;
-                document.getElementById('editServiceCost').value = customer.service_cost;
-            }
-        }
-        xhr.send();
-    });
+// JavaScript to populate the edit modal with customer data
+var editCustomerModal = document.getElementById('editCustomerModal');
+editCustomerModal.addEventListener('show.bs.modal', function(event) {
+    var button = event.relatedTarget;
+    var customerId = button.getAttribute('data-id');
 
-    // JavaScript to handle customer deletion
-    function deleteCustomer(id) {
-        if(confirm("Are you sure you want to delete this customer?")) {
-            window.location.href = 'delete_customer.php?id=' + id;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'get_customer.php?id=' + customerId, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var customer = JSON.parse(xhr.responseText);
+            document.getElementById('editCustomerId').value = customer.id;
+            document.getElementById('editCustomerName').value = customer.customer_name;
+            document.getElementById('editServiceType').value = customer.service_type;
+            document.getElementById('editAddress').value = customer.address;
+            document.getElementById('editServiceDate').value = customer.service_date;
+            document.getElementById('editNextServiceDate').value = customer.next_service_date;
+            document.getElementById('editServiceCost').value = customer.service_cost;
         }
     }
+    xhr.send();
+});
+
+// JavaScript to handle customer deletion
+function deleteCustomer(id) {
+    if (confirm("Are you sure you want to delete this customer?")) {
+        window.location.href = 'delete_customer.php?id=' + id;
+    }
+}
 </script>
 <?php
 
-include_once('add_customer_model.php');
+include_once ('add_customer_model.php');
 ?>
 
 
 <!-- Edit Customer Modal -->
-<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="./edit_customer.php" method="post">
@@ -181,7 +190,8 @@ include_once('add_customer_model.php');
                     </div>
                     <div class="mb-3">
                         <label for="editNextServiceDate" class="form-label">Next Service Date</label>
-                        <input type="date" class="form-control" id="editNextServiceDate" name="nextServiceDate" required>
+                        <input type="date" class="form-control" id="editNextServiceDate" name="nextServiceDate"
+                            required>
                     </div>
                     <div class="mb-3">
                         <label for="editServiceCost" class="form-label">Service Cost</label>
@@ -207,7 +217,8 @@ function deleteCustomer(customerName) {
 }
 
 // Populate the edit customer modal with customer details
-function populateEditCustomerModal(customerId, customerName, serviceType, address, serviceDate, nextServiceDate, serviceCost) {
+function populateEditCustomerModal(customerId, customerName, serviceType, address, serviceDate, nextServiceDate,
+    serviceCost) {
     document.getElementById('editCustomerId').value = customerId;
     document.getElementById('editCustomerName').value = customerName;
     document.getElementById('editServiceType').value = serviceType;
