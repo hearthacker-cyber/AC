@@ -40,6 +40,17 @@
                         <label for="serviceCost" class="form-label">Service Cost</label>
                         <input type="number" class="form-control" id="serviceCost" name="serviceCost" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="paymentMode" class="form-label">Payment Mode</label>
+                        <select class="form-control" id="paymentMode" name="paymentMode" required>
+                            <option value="Cash">Cash</option>
+                            <option value="Online Payment">Online Payment</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="paymentIdField" style="display: none;">
+                        <label for="paymentId" class="form-label">Payment ID</label>
+                        <input type="text" class="form-control" id="paymentId" name="paymentId">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -60,4 +71,9 @@ function toggleOtherServiceField() {
         otherServiceTypeField.style.display = 'none';
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    var paymentIdField = document.getElementById('paymentIdField');
+    paymentIdField.style.display = 'none';
+});
 </script>
