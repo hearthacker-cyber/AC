@@ -65,8 +65,9 @@ require_once 'layouts/includes/config.php';
                     </table>
                 </div>
             </div> <!-- end card-body-->
-            <a href="view_customers.php" rel="noopener noreferrer"> <button type="button" class="btn btn-primary "><i
-                        class="mdi mdi-account-multiple"></i> <b>View All</b> </button></a>
+            <a href="view_customers.php" class="btn btn-primary">
+                <i class="mdi mdi-account-multiple"></i> <b>View All</b>
+            </a>
 
         </div> <!-- end card-->
     </div> <!-- end col-->
