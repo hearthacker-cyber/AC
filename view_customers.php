@@ -30,7 +30,7 @@ require 'layouts/includes/config.php';
                                         <th>Service Cost</th>
                                         <th>Payment Mode</th>
                                         <th>Payment ID</th>
-                                        <th>Actions</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
