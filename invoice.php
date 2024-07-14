@@ -179,7 +179,7 @@ include_once ('layouts/sidebar.php');
                                         <p><b>VAT (12.5%):</b> <span
                                                 class="float-end"><?php echo htmlspecialchars($invoice['service_cost'] * 0.125); ?></span>
                                         </p>
-                                        <h3><?php echo htmlspecialchars($invoice['service_cost'] * 1.125); ?> USD</h3>
+                                        <h3><?php echo htmlspecialchars($invoice['service_cost'] * 1.125); ?> INR</h3>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div> <!-- end col -->
