@@ -1,4 +1,5 @@
 <?php
+
 require 'layouts/includes/config.php';
 
 // Check if form is submitted
@@ -20,23 +21,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Calculate next service date (6 months from the current service date)
     $nextServiceDate = date('Y-m-d', strtotime("+6 months", strtotime($serviceDate)));
 
-    // Insert data into the database
-    $sql = "INSERT INTO customers (customer_name, phone_number, service_type, address, service_date, next_service_date, service_cost, payment_id, payment_mode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // Sanitize input data to prevent SQL injection
+    $customerName = $conn->real_escape_string($customerName);
+    $phoneNumber = $conn->real_escape_string($phoneNumber);
+    $serviceType = $conn->real_escape_string($serviceType);
+    $address = $conn->real_escape_string($address);
+    $serviceDate = $conn->real_escape_string($serviceDate);
+    $nextServiceDate = $conn->real_escape_string($nextServiceDate);
+    $serviceCost = $conn->real_escape_string($serviceCost);
+    $paymentId = $conn->real_escape_string($paymentId);
+    $paymentMode = $conn->real_escape_string($paymentMode);
 
-    $stmt = $conn->prepare($sql);
-    if ($stmt === false) {
-        die('Prepare failed: ' . htmlspecialchars($conn->error));
-    }
+    // Construct the SQL query
+    $sql = "INSERT INTO customers (customer_name, phone_number, service_type, address, service_date, next_service_date, service_cost, payment_id, payment_mode) 
+            VALUES ('$customerName', '$phoneNumber', '$serviceType', '$address', '$serviceDate', '$nextServiceDate', '$serviceCost', '$paymentId', '$paymentMode')";
 
-    $stmt->bind_param("sssssdsss", $customerName, $phoneNumber, $serviceType, $address, $serviceDate, $nextServiceDate, $serviceCost, $paymentId, $paymentMode);
-
-    if ($stmt->execute()) {
+    if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . htmlspecialchars($conn->error);
     }
 
-    $stmt->close();
     $conn->close();
 
     // Redirect back to the main page (index.php)
