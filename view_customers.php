@@ -224,15 +224,20 @@ function loadCustomerData(id) {
 
 function deleteCustomer(id) {
     if (confirm("Are you sure you want to delete this customer?")) {
-        fetch(`./delete_customer.php?id=${id}`, { method: 'DELETE' })
+        fetch(`delete_customer.php?id=${id}`, { method: 'DELETE' })
             .then(response => response.text())
             .then(result => {
                 if (result === "success") {
-                    location.reload();
+                    location.reload(); // Reload the page if deletion is successful
                 } else {
                     alert("Failed to delete customer. Please try again.");
                 }
+            })
+            .catch(error => {
+                console.error('Error deleting customer:', error);
+                alert("An error occurred while deleting customer.");
             });
     }
 }
+
 </script>
