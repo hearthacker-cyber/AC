@@ -176,10 +176,10 @@ include_once ('layouts/sidebar.php');
                                         <p><b>Sub-total:</b> <span
                                                 class="float-end"><?php echo htmlspecialchars($invoice['service_cost']); ?></span>
                                         </p>
-                                        <p><b>VAT (12.5%):</b> <span
-                                                class="float-end"><?php echo htmlspecialchars($invoice['service_cost'] * 0.125); ?></span>
+                                        <p><b>GST (18%):</b> <span
+                                                class="float-end"><?php echo htmlspecialchars($invoice['service_cost'] * 0.180); ?></span>
                                         </p>
-                                        <h3><?php echo htmlspecialchars($invoice['service_cost'] * 1.125); ?> INR</h3>
+                                        <h3><?php echo htmlspecialchars($invoice['service_cost'] * 0.180); ?> INR</h3>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div> <!-- end col -->
