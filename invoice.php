@@ -172,15 +172,18 @@ include_once ('layouts/sidebar.php');
                                     </div>
                                 </div> <!-- end col -->
                                 <div class="col-sm-6">
-                                    <div class="float-end mt-3 mt-sm-0">
-                                        <p><b>Sub-total:</b> <span
-                                                class="float-end"><?php echo htmlspecialchars($invoice['service_cost']); ?></span>
-                                        </p>
-                                        <p><b>GST (18%):</b> <span
-                                                class="float-end"><?php echo htmlspecialchars($invoice['service_cost'] * 0.180); ?></span>
-                                        </p>
-                                        <h3><?php echo htmlspecialchars($invoice['service_cost'] * 1.125); ?> INR</h3>
-                                    </div>
+                                <div class="float-end mt-3 mt-sm-0">
+    <p><b>Sub-total:</b> <span class="float-end"><?php echo htmlspecialchars($invoice['service_cost']); ?></span></p>
+    <?php
+    // Calculate GST
+    $gst = $invoice['service_cost'] * 0.18;
+    // Calculate Total including GST
+    $totalWithGST = $invoice['service_cost'] + $gst;
+    ?>
+    <p><b>GST (18%):</b> <span class="float-end"><?php echo htmlspecialchars($gst); ?></span></p>
+    <h3><?php echo htmlspecialchars($totalWithGST); ?> INR</h3>
+</div>
+
                                     <div class="clearfix"></div>
                                 </div> <!-- end col -->
                             </div>
