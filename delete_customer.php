@@ -1,24 +1,17 @@
 <?php
 require 'layouts/includes/config.php';
 
-// Check if the customer ID is set in the request
-if (isset($_GET['id'])) {
-    $customerId = $_GET['id'];
+if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+    $customerId = $_GET['id']; // Assuming you're passing id as a query parameter
 
-    // Prepare and execute the delete query
-    $sql = "DELETE FROM customers WHERE id=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("d", $customerId);
+    $sql = "DELETE FROM customers WHERE id = '$customerId'";
 
-    if ($stmt->execute()) {
-        echo "<script>alert('Record deleted successfully'); window.location.href = './view_customers.php';</script>";
+    if ($conn->query($sql) === TRUE) {
+        echo "success";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "error";
     }
 
-    $stmt->close();
     $conn->close();
-} else {
-    echo "No customer ID provided.";
 }
 ?>
