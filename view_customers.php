@@ -53,6 +53,7 @@ require 'layouts/includes/config.php';
                                                 <td>
                                                     <button class='btn btn-sm btn-warning' data-bs-toggle='modal' data-bs-target='#editCustomerModal' onclick='loadCustomerData({$row['id']})'><i class='mdi mdi-lead-pencil'></i></button>
                                                     <button class='btn btn-sm btn-danger' onclick='deleteCustomer({$row['id']})'><i class='mdi mdi-delete'></i>Delete</button>
+                                                    <a href='invoice.php?id={$row['id']}'><button class='btn btn-sm btn-primary'><i class='mdi mdi-book-account'></i>Generate slip</button></a>
                                                 </td>
                                             </tr>";
                                         }
@@ -93,7 +94,8 @@ require 'layouts/includes/config.php';
                     </div>
                     <div class="mb-3">
                         <label for="serviceType" class="form-label">Service Type</label>
-                        <select class="form-control" id="serviceType" name="serviceType" required onchange="toggleOtherServiceField()">
+                        <select class="form-control" id="serviceType" name="serviceType" required
+                            onchange="toggleOtherServiceField()">
                             <option value="AC Service">AC Service</option>
                             <option value="Washing Machine Service">Washing Machine Service</option>
                             <option value="Others">Others</option>
@@ -134,7 +136,8 @@ require 'layouts/includes/config.php';
 </div>
 
 <!-- Edit Customer Modal -->
-<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="./edit_customer.php" method="post">
@@ -154,7 +157,8 @@ require 'layouts/includes/config.php';
                     </div>
                     <div class="mb-3">
                         <label for="editServiceType" class="form-label">Service Type</label>
-                        <select class="form-control" id="editServiceType" name="serviceType" required onchange="toggleEditOtherServiceField()">
+                        <select class="form-control" id="editServiceType" name="serviceType" required
+                            onchange="toggleEditOtherServiceField()">
                             <option value="AC Service">AC Service</option>
                             <option value="Washing Machine Service">Washing Machine Service</option>
                             <option value="Others">Others</option>
@@ -224,7 +228,9 @@ function loadCustomerData(id) {
 
 function deleteCustomer(id) {
     if (confirm("Are you sure you want to delete this customer?")) {
-        fetch(`delete_customer.php?id=${id}`, { method: 'DELETE' })
+        fetch(`delete_customer.php?id=${id}`, {
+                method: 'DELETE'
+            })
             .then(response => response.text())
             .then(result => {
                 if (result === "success") {
@@ -239,5 +245,4 @@ function deleteCustomer(id) {
             });
     }
 }
-
 </script>
