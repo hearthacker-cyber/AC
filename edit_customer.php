@@ -1,34 +1,28 @@
 <?php
 require 'layouts/includes/config.php';
 
-// Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $customerId = $_POST['customerId'];
     $customerName = $_POST['customerName'];
     $phoneNumber = $_POST['phoneNumber'];
-    $serviceType = $_POST['serviceType'];
-    $otherServiceType = $_POST['otherServiceType'] ?? '';
+    $serviceType = $_POST['serviceType'] == 'Others' ? $_POST['otherServiceType'] : $_POST['serviceType'];
     $address = $_POST['address'];
     $serviceDate = $_POST['serviceDate'];
     $serviceCost = $_POST['serviceCost'];
+    $paymentMode = $_POST['paymentMode'];
+    $paymentId = $_POST['paymentId'];
 
-    if ($serviceType === 'Others') {
-        $serviceType = $otherServiceType;
-    }
+    // Calculate the next service date as 1 year from the service date
+    $nextServiceDate = date('Y-m-d', strtotime('+1 year', strtotime($serviceDate)));
 
-    // Update data in the database
-    $sql = "UPDATE customers SET customer_name=?, phone_number=?, service_type=?, address=?, service_date=?, service_cost=? WHERE id=?";
+    $sql = "UPDATE customers SET customer_name='$customerName', phone_number='$phoneNumber', service_type='$serviceType', address='$address', service_date='$serviceDate', next_service_date='$nextServiceDate', service_cost='$serviceCost', payment_mode='$paymentMode', payment_id='$paymentId' WHERE id='$customerId'";
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssd", $customerName, $phoneNumber, $serviceType, $address, $serviceDate, $serviceCost, $customerId);
-
-    if ($stmt->execute()) {
-        echo "<script>alert('Record updated successfully'); window.location.href = './view_customers.php';</script>";
+    if ($conn->query($sql) === TRUE) {
+        header('Location: ./customers.php');
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
-    $stmt->close();
     $conn->close();
 }
 ?>
