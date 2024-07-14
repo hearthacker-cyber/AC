@@ -179,7 +179,7 @@ include_once ('layouts/sidebar.php');
                                         <p><b>GST (18%):</b> <span
                                                 class="float-end"><?php echo htmlspecialchars($invoice['service_cost'] * 0.180); ?></span>
                                         </p>
-                                        <h3><?php echo htmlspecialchars($invoice['service_cost'] * 0.180); ?> INR</h3>
+                                        <h3><?php echo htmlspecialchars($invoice['service_cost'] * 1.125); ?> INR</h3>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div> <!-- end col -->
