@@ -10,17 +10,14 @@ require_once 'layouts/includes/config.php';
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <h4 class="header-title">Latest Services</h4>
                     <div class="dropdown">
-                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#addCustomerModal"
-                            class="btn btn-light"><i class="mdi mdi-account-plus"></i> Add New Service </button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#addCustomerModal" class="btn btn-light"><i class="mdi mdi-account-plus"></i> Add New Service </button>
 
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                data-bs-target="#addCustomerModal">Add New Customer</a>
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add New Customer</a>
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item">Export Data</a>
                         </div>
@@ -46,14 +43,13 @@ require_once 'layouts/includes/config.php';
                             $sql = "SELECT id, customer_name, service_type, address, service_date, next_service_date, service_cost FROM customers ORDER BY id DESC LIMIT 5";
                             if ($result = $conn->query($sql)) {
                                 while ($row = $result->fetch_assoc()) {
-                                    echo "<tr>
+                                    echo "<tr data-next-service-date='{$row['next_service_date']}' data-customer-name='{$row['customer_name']}' data-address='{$row['address']}' data-service-type='{$row['service_type']}'>
                                             <td>{$row['customer_name']}</td>
                                             <td>{$row['service_type']}</td>
                                             <td>{$row['address']}</td>
                                             <td>{$row['service_date']}</td>
                                             <td>{$row['next_service_date']}</td>
                                             <td>₹{$row['service_cost']}</td>
-                                           
                                         </tr>";
                                 }
                                 $result->free();
@@ -68,10 +64,49 @@ require_once 'layouts/includes/config.php';
             <a href="view_customers.php" class="btn btn-primary">
                 <i class="mdi mdi-account-multiple"></i> <b>View All</b>
             </a>
-
         </div> <!-- end card-->
     </div> <!-- end col-->
 </div> <!-- end row-->
+<!-- Bootstrap Toast -->
+<!-- Bootstrap Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="nextServiceToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+        <div class="toast-header">
+            <strong class="me-auto">Service Reminder</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <!-- Toast content will be injected by JavaScript -->
+        </div>
+    </div>
+</div>
+
+<script>
+// JavaScript to check for upcoming services within 48 hours and show a toast message
+document.addEventListener("DOMContentLoaded", function () {
+    var rows = document.querySelectorAll('tr[data-next-service-date]');
+    var now = new Date();
+    var toastElement = document.getElementById('nextServiceToast');
+    var toast = new bootstrap.Toast(toastElement, { autohide: false });
+
+    rows.forEach(function (row) {
+        var nextServiceDate = new Date(row.getAttribute('data-next-service-date'));
+        var customerName = row.getAttribute('data-customer-name');
+        var address = row.getAttribute('data-address');
+        var serviceType = row.getAttribute('data-service-type');
+
+        var timeDiff = nextServiceDate - now;
+        var hoursDiff = timeDiff / (1000 * 60 * 60);
+
+        if (hoursDiff > 0 && hoursDiff <= 48) {
+            var toastBody = toastElement.querySelector('.toast-body');
+            toastBody.innerHTML = 'Reminder: <br><b>Customer:</b> ' + customerName + '<br><b>Address:</b> ' + address + '<br><b>Service Type:</b> ' + serviceType + '<br><b>Next Service Date:</b> ' + nextServiceDate.toLocaleString();
+            toast.show();
+        }
+    });
+});
+</script>
+
 
 <!-- Edit Customer Modal -->
 <div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel"
