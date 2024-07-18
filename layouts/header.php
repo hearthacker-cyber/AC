@@ -24,9 +24,15 @@
     <link href="assets/css/vendor/buttons.bootstrap5.css" rel="stylesheet" type="text/css" />
     <link rel="manifest" href="../manifest.json">
 
+    <script>
+    navigator.serviceWorker.register("service-worker.js")
+    </script>
 
-    <!-- <link href="assets/css/vendor/dataTables.bootstrap5.css" rel="s<link rel="manifest" href="/manifest.json">
-tylesheet" type="text/css" /> -->
+
+
+    < <!-- <link href="assets/css/vendor/dataTables.bootstrap5.css" rel="s<link rel=" manifest" href="/manifest.json">
+        tylesheet" type="text/css" /> -->
+
 
 
 
