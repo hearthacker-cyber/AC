@@ -81,6 +81,86 @@ require_once 'layouts/includes/config.php';
     </div>
 </div>
 
+<?php
+// Include the config file to connect to the database
+require_once 'layouts/includes/config.php';
+
+// Function to get upcoming services within the next 72 hours
+function getUpcomingServices($conn) {
+    $current_date = new DateTime();
+    $end_date = new DateTime();
+    $end_date->add(new DateInterval('PT72H')); // Add 72 hours to the current date
+
+    $sql = "SELECT id, customer_name, service_type, address, service_date, next_service_date, service_cost, phone_number FROM customers 
+            WHERE next_service_date BETWEEN ? AND ? 
+            ORDER BY next_service_date ASC";
+    $stmt = $conn->prepare($sql);
+    $start_date_str = $current_date->format('Y-m-d H:i:s');
+    $end_date_str = $end_date->format('Y-m-d H:i:s');
+    $stmt->bind_param('ss', $start_date_str, $end_date_str);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    return $result;
+}
+
+// Fetch upcoming services
+$upcoming_services = getUpcomingServices($conn);
+?>
+
+<!-- Upcoming Services Table -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h4 class="header-title">Upcoming Services (Within 72 Hours)</h4>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-centered table-striped table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Customer Name</th>
+                                <th>Phone Number</th>
+                                <th>Service Type</th>
+                                <th>Address</th>
+                                <th>Service Date</th>
+                                <th>Next Service Date</th>
+                                <th>Service Cost</th>
+                                <!-- <th>Actions</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // Display upcoming services
+                            if ($upcoming_services->num_rows > 0) {
+                                while ($row = $upcoming_services->fetch_assoc()) {
+                                    echo "<tr>
+                                            <td>{$row['customer_name']}</td>
+                                            <td>{$row['phone_number']}</td>
+                                            <td>{$row['service_type']}</td>
+                                            <td>{$row['address']}</td>
+                                            <td>{$row['service_date']}</td>
+                                            <td>{$row['next_service_date']}</td>
+                                            <td>₹{$row['service_cost']}</td>
+                                        </tr>";
+                                }
+                                $upcoming_services->free();
+                            } else {
+                                echo "<tr><td colspan='7'>No upcoming services within the next 72 hours.</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+</div> <!-- end row-->
+
+
+
 <script>
 // JavaScript to check for upcoming services within 48 hours and show a toast message
 document.addEventListener("DOMContentLoaded", function () {
@@ -157,81 +237,6 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
     </div>
 </div>
-<?php
-// Include the config file to connect to the database
-require_once 'layouts/includes/config.php';
-
-// Function to get upcoming services within the next 72 hours
-function getUpcomingServices($conn) {
-    $current_date = new DateTime();
-    $end_date = new DateTime();
-    $end_date->add(new DateInterval('PT72H')); // Add 72 hours to the current date
-
-    $sql = "SELECT id, customer_name, service_type, address, service_date, next_service_date, service_cost FROM customers 
-            WHERE next_service_date BETWEEN ? AND ? 
-            ORDER BY next_service_date ASC";
-    $stmt = $conn->prepare($sql);
-    $start_date_str = $current_date->format('Y-m-d H:i:s');
-    $end_date_str = $end_date->format('Y-m-d H:i:s');
-    $stmt->bind_param('ss', $start_date_str, $end_date_str);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    return $result;
-}
-
-// Fetch upcoming services
-$upcoming_services = getUpcomingServices($conn);
-?>
-
-<!-- Upcoming Services Table -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h4 class="header-title">Upcoming Services (Within 72 Hours)</h4>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="table table-centered table-striped table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Customer Name</th>
-                                <th>Service Type</th>
-                                <th>Address</th>
-                                <th>Service Date</th>
-                                <th>Next Service Date</th>
-                                <th>Service Cost</th>
-                                <!-- <th>Actions</th> -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // Display upcoming services
-                            if ($upcoming_services->num_rows > 0) {
-                                while ($row = $upcoming_services->fetch_assoc()) {
-                                    echo "<tr>
-                                            <td>{$row['customer_name']}</td>
-                                            <td>{$row['service_type']}</td>
-                                            <td>{$row['address']}</td>
-                                            <td>{$row['service_date']}</td>
-                                            <td>{$row['next_service_date']}</td>
-                                            <td>₹{$row['service_cost']}</td>
-                                        </tr>";
-                                }
-                                $upcoming_services->free();
-                            } else {
-                                echo "<tr><td colspan='7'>No upcoming services within the next 72 hours.</td></tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div> <!-- end card-body-->
-        </div> <!-- end card-->
-    </div> <!-- end col-->
-</div> <!-- end row-->
 
 <script>
 // JavaScript to populate the edit modal with customer data
