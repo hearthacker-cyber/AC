@@ -1,0 +1,22 @@
+{
+  "background_color": "#ffffff",
+  "description": "A fully featured admin theme which can be used to build CRM, CMS, etc.",
+  "dir": "auto",
+  "display": "standalone",
+  "name": "ac.hifi11",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "ac.hifi11",
+  "start_url": "https://ac.hifi11.in/",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "assets/images/favicon.ico"
+    }
+  ],
+  "lang": "en",
+  "display_override": [
+    "fullscreen",
+    "window-controls-overlay"
+  ]
+}
