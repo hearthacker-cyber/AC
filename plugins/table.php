@@ -109,55 +109,8 @@ $upcoming_services = getUpcomingServices($conn);
 ?>
 
 <!-- Upcoming Services Table -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h4 class="header-title">Upcoming Services (Within 72 Hours)</h4>
-                </div>
 
-                <div class="table-responsive">
-                    <table class="table table-centered table-striped table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Customer Name</th>
-                                <th>Phone Number</th>
-                                <th>Service Type</th>
-                                <th>Address</th>
-                                <th>Service Date</th>
-                                <th>Next Service Date</th>
-                                <th>Service Cost</th>
-                                <!-- <th>Actions</th> -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // Display upcoming services
-                            if ($upcoming_services->num_rows > 0) {
-                                while ($row = $upcoming_services->fetch_assoc()) {
-                                    echo "<tr>
-                                            <td>{$row['customer_name']}</td>
-                                            <td>{$row['phone_number']}</td>
-                                            <td>{$row['service_type']}</td>
-                                            <td>{$row['address']}</td>
-                                            <td>{$row['service_date']}</td>
-                                            <td>{$row['next_service_date']}</td>
-                                            <td>₹{$row['service_cost']}</td>
-                                        </tr>";
-                                }
-                                $upcoming_services->free();
-                            } else {
-                                echo "<tr><td colspan='7'>No upcoming services within the next 72 hours.</td></tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div> <!-- end card-body-->
-        </div> <!-- end card-->
-    </div> <!-- end col-->
-</div> <!-- end row-->
+<!-- Upcoming Services Table -->
 
 
 
@@ -269,11 +222,64 @@ function deleteCustomer(id) {
     }
 }
 </script>
+
 <?php
 
 include_once ('add_customer_model.php');
 ?>
 
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h4 class="header-title">Upcoming Services (Within 72 Hours)</h4>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-centered table-striped table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Customer Name</th>
+                                <th>Phone Number</th>
+                                <th>Service Type</th>
+                                <th>Address</th>
+                                <th>Service Date</th>
+                                <th>Next Service Date</th>
+                                <th>Service Cost</th>
+                                <th>Send Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // Display upcoming services
+                            if ($upcoming_services->num_rows > 0) {
+                                while ($row = $upcoming_services->fetch_assoc()) {
+                                    $message = "Dear {$row['customer_name']}, your service of type '{$row['service_type']}' is coming up on {$row['next_service_date']}. The service cost is ₹{$row['service_cost']}. Please make yourself available. Thank you!";
+                                    $encoded_message = urlencode($message);
+                                    echo "<tr>
+                                            <td>{$row['customer_name']}</td>
+                                            <td>{$row['phone_number']}</td>
+                                            <td>{$row['service_type']}</td>
+                                            <td>{$row['address']}</td>
+                                            <td>{$row['service_date']}</td>
+                                            <td>{$row['next_service_date']}</td>
+                                            <td>₹{$row['service_cost']}</td>
+                                            <td><a href='https://wa.me/{$row['phone_number']}?text={$encoded_message}' target='_blank' class='btn btn-success'>Send Message</a></td>
+                                        </tr>";
+                                }
+                                $upcoming_services->free();
+                            } else {
+                                echo "<tr><td colspan='8'>No upcoming services within the next 72 hours.</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+</div> <!-- end row-->
 
 <!-- Edit Customer Modal -->
 <div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel"
