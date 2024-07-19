@@ -8,106 +8,122 @@
                             class="mdi mdi-download ms-1"></i></a>
                 </div>
 
+
+                <?php
+                require 'layouts/includes/config.php';
+
+                // Fetch service data from the database and categorize them
+                $sql = "SELECT service_type, COUNT(*) as total_services, SUM(service_cost) as total_amount
+        FROM customers
+        GROUP BY service_type";
+                $result = $conn->query($sql);
+
+                // Initialize arrays to store categorized data
+                $serviceSummary = [
+                    'AC Service' => ['total_services' => 0, 'total_amount' => 0],
+                    'Washing Machine Service' => ['total_services' => 0, 'total_amount' => 0],
+                    'Others' => ['total_services' => 0, 'total_amount' => 0]
+                ];
+
+                // Categorize the data
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        switch ($row["service_type"]) {
+                            case 'AC Service':
+                                $serviceSummary['AC Service']['total_services'] = $row['total_services'];
+                                $serviceSummary['AC Service']['total_amount'] = $row['total_amount'];
+                                break;
+                            case 'Washing Machine Service':
+                                $serviceSummary['Washing Machine Service']['total_services'] = $row['total_services'];
+                                $serviceSummary['Washing Machine Service']['total_amount'] = $row['total_amount'];
+                                break;
+                            default:
+                                $serviceSummary['Others']['total_services'] += $row['total_services'];
+                                $serviceSummary['Others']['total_amount'] += $row['total_amount'];
+                                break;
+                        }
+                    }
+                }
+                ?>
+
                 <div class="table-responsive">
                     <table class="table table-centered table-nowrap table-hover mb-0">
                         <tbody>
+                            <!-- AC Service -->
                             <tr>
                                 <td>
-                                    <h5 class="font-14 my-1 fw-normal">ASOS Ridley High Waist</h5>
-                                    <span class="text-muted font-13">07 April 2018</span>
+                                    <h5 class="font-14 my-1 fw-normal">AC Service</h5>
                                 </td>
                                 <td>
-                                    <h5 class="font-14 my-1 fw-normal">$79.49</h5>
-                                    <span class="text-muted font-13">Price</span>
+                                    <h5 class="font-14 my-1 fw-normal">
+                                        <?= $serviceSummary['AC Service']['total_services'] ?>
+                                    </h5>
+                                    <span class="text-muted font-13">Total Services</span>
                                 </td>
                                 <td>
-                                    <h5 class="font-14 my-1 fw-normal">82</h5>
-                                    <span class="text-muted font-13">Quantity</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$6,518.18</h5>
-                                    <span class="text-muted font-13">Amount</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">Marco Lightweight Shirt</h5>
-                                    <span class="text-muted font-13">25 March 2018</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$128.50</h5>
-                                    <span class="text-muted font-13">Price</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">37</h5>
-                                    <span class="text-muted font-13">Quantity</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$4,754.50</h5>
-                                    <span class="text-muted font-13">Amount</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">Half Sleeve Shirt</h5>
-                                    <span class="text-muted font-13">17 March 2018</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$39.99</h5>
-                                    <span class="text-muted font-13">Price</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">64</h5>
-                                    <span class="text-muted font-13">Quantity</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$2,559.36</h5>
-                                    <span class="text-muted font-13">Amount</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">Lightweight Jacket</h5>
-                                    <span class="text-muted font-13">12 March 2018</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$20.00</h5>
-                                    <span class="text-muted font-13">Price</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">184</h5>
-                                    <span class="text-muted font-13">Quantity</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$3,680.00</h5>
-                                    <span class="text-muted font-13">Amount</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">Marco Shoes</h5>
-                                    <span class="text-muted font-13">05 March 2018</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$28.49</h5>
-                                    <span class="text-muted font-13">Price</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">69</h5>
-                                    <span class="text-muted font-13">Quantity</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$1,965.81</h5>
-                                    <span class="text-muted font-13">Amount</span>
+                                    <h5 class="font-14 my-1 fw-normal">
+                                        $<?= number_format($serviceSummary['AC Service']['total_amount'], 2) ?></h5>
+                                    <span class="text-muted font-13">Total Amount</span>
                                 </td>
                             </tr>
 
+                            <!-- Washing Machine Service -->
+                            <tr>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">Washing Machine Service</h5>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">
+                                        <?= $serviceSummary['Washing Machine Service']['total_services'] ?>
+                                    </h5>
+                                    <span class="text-muted font-13">Total Services</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">
+                                        $<?= number_format($serviceSummary['Washing Machine Service']['total_amount'], 2) ?>
+                                    </h5>
+                                    <span class="text-muted font-13">Total Amount</span>
+                                </td>
+                            </tr>
+
+                            <!-- Other Services -->
+                            <tr>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">Other Services</h5>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">
+                                        <?= $serviceSummary['Others']['total_services'] ?>
+                                    </h5>
+                                    <span class="text-muted font-13">Total Services</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">
+                                        $<?= number_format($serviceSummary['Others']['total_amount'], 2) ?></h5>
+                                    <span class="text-muted font-13">Total Amount</span>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div> <!-- end table-responsive-->
+
+                <?php
+                $conn->close();
+                ?>
+
+
+
+
+
+
+
             </div> <!-- end card-body-->
         </div> <!-- end card-->
     </div> <!-- end col-->
+
+
+
+
 
     <div class="col-xl-3 col-lg-6 order-lg-1">
         <div class="card">
@@ -157,6 +173,16 @@
             </div> <!-- end card-body-->
         </div> <!-- end card-->
     </div> <!-- end col-->
+
+
+
+
+
+
+
+
+
+
 
     <div class="col-xl-3 col-lg-6 order-lg-1">
         <div class="card">

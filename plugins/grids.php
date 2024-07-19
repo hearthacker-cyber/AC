@@ -1,6 +1,6 @@
 <?php
 // Include your configuration file that establishes database connection
-require_once('layouts/includes/config.php');
+require_once ('layouts/includes/config.php');
 
 // Example SQL queries to fetch data from your database
 $sqlTotalCustomers = "SELECT COUNT(id) AS total_customers FROM customers";
@@ -78,7 +78,7 @@ if ($resultTotalServiceCost) {
                             </h3>
                             <p class="mb-0 text-muted">
                                 <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 5.27%</span>
-                                <span class="text-nowrap">Since last month</span>  
+                                <span class="text-nowrap">Since last month</span>
                             </p>
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
@@ -86,7 +86,7 @@ if ($resultTotalServiceCost) {
 
                 <div class="col-sm-6">
                     <div class="card widget-flat">
-                    <div class="card-body">
+                        <div class="card-body">
                             <div class="float-end">
                                 <i class="mdi mdi-account-multiple widget-icon"></i>
                             </div>
@@ -96,7 +96,7 @@ if ($resultTotalServiceCost) {
                             </h3>
                             <p class="mb-0 text-muted">
                                 <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 5.27%</span>
-                                <span class="text-nowrap">Since last month</span>  
+                                <span class="text-nowrap">Since last month</span>
                             </p>
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
@@ -122,8 +122,28 @@ if ($resultTotalServiceCost) {
                     </div> <!-- end card-->
                 </div> <!-- end col-->
 
-     <!-- end col-->
+                <div class="col-sm-6">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-currency-usd widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Total Service Cost">Total Staffs</h5>
+                            <h3 class="mt-3 mb-3">
+                                <?php echo "3" ?>
+                            </h3>
+                            <p class="mb-0 text-muted">
+                                <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 7.00%</span>
+                                <span class="text-nowrap">Since last month</span>
+                            </p>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+                <!-- end col-->
             </div> <!-- end row -->
+
+
+
 
         </div> <!-- end col -->
 
@@ -133,7 +153,8 @@ if ($resultTotalServiceCost) {
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h4 class="header-title">Projections Vs Actuals</h4>
                         <div class="dropdown">
-                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 <i class="mdi mdi-dots-vertical"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
@@ -152,7 +173,7 @@ if ($resultTotalServiceCost) {
                     <div dir="ltr">
                         <div id="high-performing-product" class="apex-charts" data-colors="#727cf5,#e3eaef"></div>
                     </div>
-                    
+
                 </div> <!-- end card-body-->
             </div> <!-- end card-->
 
