@@ -186,7 +186,10 @@ include_once ('layouts/sidebar.php');
                                 <div class="text-end">
                                     <a href="javascript:window.print()" class="btn btn-primary"><i
                                             class="mdi mdi-printer"></i> Print</a>
-                                    <a href="javascript:void(0);" class="btn btn-info" id="sendInvoiceBtn">Send to Customer</a>
+                                            <a href="https://wa.me/<?php echo htmlspecialchars($invoice['phone_number']); ?>?text=Hi%20<?php echo urlencode(htmlspecialchars($invoice['customer_name'])); ?>,%20Please%20find%20your%20invoice%20attached.%20Invoice%20Details:%20Service%20Type:%20<?php echo urlencode(htmlspecialchars($invoice['service_type'])); ?>,%20Service%20Cost:%20<?php echo urlencode(htmlspecialchars($invoice['service_cost'])); ?>.%20You%20can%20view%20the%20invoice%20at%20<?php echo urlencode($invoiceUrl); ?>" class="btn btn-info" target="_blank">
+    Send to Customer
+</a>
+
                                 </div>
                             </div>
                             <!-- end buttons -->
