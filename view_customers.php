@@ -17,7 +17,7 @@ require 'layouts/includes/config.php';
                 <div class="card-body">
                     <h4 class="header-title">All Services</h4>
                     <div class="tab-content">
-                        <div class="tab-pane show active" id="">
+                        <div class="tab-pane show active" id="buttons-table-preview">
                             <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
