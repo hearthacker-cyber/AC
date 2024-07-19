@@ -14,9 +14,6 @@ include_once('layouts/sidebar.php');
   <?php
 include_once('layouts/topbar.php');
   ?>
-                    
-                 
-
                        <?php
                      include_once('plugins/grids.php');
                      include_once('plugins/table.php');
