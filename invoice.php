@@ -1,6 +1,5 @@
 <?php
 include_once ('layouts/header.php');
-
 include_once ('layouts/sidebar.php');
 ?>
 
@@ -12,10 +11,6 @@ include_once ('layouts/sidebar.php');
     <div class="content">
         <?php
         include_once ('layouts/topbar.php');
-        ?>
-
-
-        <?php
         require 'layouts/includes/config.php';
 
         // Get the invoice ID from the query string
@@ -37,9 +32,7 @@ include_once ('layouts/sidebar.php');
         $conn->close();
         ?>
 
-
         <div class="container-fluid">
-
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -172,17 +165,17 @@ include_once ('layouts/sidebar.php');
                                     </div>
                                 </div> <!-- end col -->
                                 <div class="col-sm-6">
-                                <div class="float-end mt-3 mt-sm-0">
-    <p><b>Sub-total:</b> <span class="float-end"><?php echo htmlspecialchars($invoice['service_cost']); ?></span></p>
-    <?php
-    // Calculate GST
-    $gst = $invoice['service_cost'] * 0.18;
-    // Calculate Total including GST
-    $totalWithGST = $invoice['service_cost'] + $gst;
-    ?>
-    <p><b>GST (18%):</b> <span class="float-end"><?php echo htmlspecialchars($gst); ?></span></p>
-    <h3><?php echo htmlspecialchars($totalWithGST); ?> INR</h3>
-</div>
+                                    <div class="float-end mt-3 mt-sm-0">
+                                        <p><b>Sub-total:</b> <span class="float-end"><?php echo htmlspecialchars($invoice['service_cost']); ?></span></p>
+                                        <?php
+                                        // Calculate GST
+                                        $gst = $invoice['service_cost'] * 0.18;
+                                        // Calculate Total including GST
+                                        $totalWithGST = $invoice['service_cost'] + $gst;
+                                        ?>
+                                        <p><b>GST (18%):</b> <span class="float-end"><?php echo htmlspecialchars($gst); ?></span></p>
+                                        <h3><?php echo htmlspecialchars($totalWithGST); ?> INR</h3>
+                                    </div>
 
                                     <div class="clearfix"></div>
                                 </div> <!-- end col -->
@@ -193,7 +186,7 @@ include_once ('layouts/sidebar.php');
                                 <div class="text-end">
                                     <a href="javascript:window.print()" class="btn btn-primary"><i
                                             class="mdi mdi-printer"></i> Print</a>
-                                    <a href="javascript: void(0);" class="btn btn-info">Submit</a>
+                                    <a href="javascript:void(0);" class="btn btn-info" id="sendInvoiceBtn">Send to Customer</a>
                                 </div>
                             </div>
                             <!-- end buttons -->
@@ -205,14 +198,29 @@ include_once ('layouts/sidebar.php');
             <!-- end row -->
 
         </div>
-
+        <!-- container -->
 
     </div>
-    <!-- container -->
-
+    <!-- content -->
 </div>
-<!-- content -->
+
+<script>
+    document.getElementById('sendInvoiceBtn').addEventListener('click', function() {
+        var phoneNumber = "<?php echo htmlspecialchars($invoice['phone_number']); ?>";
+        var serviceType = "<?php echo htmlspecialchars($invoice['service_type']); ?>";
+        var nextServiceDate = "<?php echo htmlspecialchars($invoice['next_service_date']); ?>";
+        var serviceCost = "<?php echo htmlspecialchars($invoice['service_cost']); ?>";
+        var message = `Dear Customer, your service for ${serviceType} is coming up on ${nextServiceDate}. The cost for this service is ₹${serviceCost}. Please make yourself available.`;
+        
+        // Encode URL components
+        var encodedMessage = encodeURIComponent(message);
+        var url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+        // Open WhatsApp message URL
+        window.open(url, '_blank');
+    });
+</script>
 
 <?php
-include_once ('layouts/footer.php')
-    ?>
+include_once ('layouts/footer.php');
+?>
