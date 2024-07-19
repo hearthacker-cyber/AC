@@ -34,6 +34,11 @@
                                 <span class="badge bg-success float-end">4</span>
                                 <span> Dashboard </span>
                             </a>
+                            <a href="logout.php" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                                <i class="uil-home-alt"></i>
+                                <span class="badge bg-success float-end">4</span>
+                                <span> Logout </span>
+                            </a>
                         </li>
 
                         <!--li class="side-nav-title side-nav-item">Apps</li>

@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Execute the statement
     if ($stmt->execute()) {
-        header("Location: index.php");
+        echo "New customer added successfully.";
     } else {
         echo "Error: " . $stmt->error;
     }
