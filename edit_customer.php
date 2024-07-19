@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "UPDATE customers SET customer_name='$customerName', phone_number='$phoneNumber', service_type='$serviceType', address='$address', service_date='$serviceDate', next_service_date='$nextServiceDate', service_cost='$serviceCost', payment_mode='$paymentMode', payment_id='$paymentId' WHERE id='$customerId'";
 
     if ($conn->query($sql) === TRUE) {
-        header('Location: ./customers.php');
+        header('Location: ./view_customers.php');
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
