@@ -128,14 +128,31 @@ $upcoming_services = getUpcomingServices($conn);
                                 <th>Service Date</th>
                                 <th>Next Service Date</th>
                                 <th>Service Cost</th>
-                                <!-- <th>Actions</th> -->
+                                <th>Days Left</th>
+                                <th>Send Message</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             // Display upcoming services
                             if ($upcoming_services->num_rows > 0) {
+                                $current_date = new DateTime();
                                 while ($row = $upcoming_services->fetch_assoc()) {
+                                    $next_service_date = new DateTime($row['next_service_date']);
+                                    $days_left = $next_service_date->diff($current_date)->days;
+
+                                    // Determine the color for the days left
+                                    $highlight_class = '';
+                                    if ($days_left < 2) {
+                                        $highlight_class = 'bg-danger text-white'; // Red for urgent
+                                    } elseif ($days_left <= 7) {
+                                        $highlight_class = 'bg-warning'; // Orange for soon
+                                    } else {
+                                        $highlight_class = 'bg-success text-white'; // Green for safe
+                                    }
+
+                                    $message = "Dear {$row['customer_name']}, your service of type '{$row['service_type']}' is coming up on {$row['next_service_date']}. The service cost is ₹{$row['service_cost']}. Please make yourself available. Thank you!";
+                                    $encoded_message = urlencode($message);
                                     echo "<tr>
                                             <td>{$row['customer_name']}</td>
                                             <td>{$row['phone_number']}</td>
@@ -144,11 +161,13 @@ $upcoming_services = getUpcomingServices($conn);
                                             <td>{$row['service_date']}</td>
                                             <td>{$row['next_service_date']}</td>
                                             <td>₹{$row['service_cost']}</td>
+                                            <td class='{$highlight_class}'>{$days_left} days</td>
+                                            <td><a href='https://wa.me/{$row['phone_number']}?text={$encoded_message}' target='_blank' class='btn btn-success'>Send Message</a></td>
                                         </tr>";
                                 }
                                 $upcoming_services->free();
                             } else {
-                                echo "<tr><td colspan='7'>No upcoming services within the next 72 hours.</td></tr>";
+                                echo "<tr><td colspan='9'>No upcoming services within the next 72 hours.</td></tr>";
                             }
                             ?>
                         </tbody>
@@ -158,6 +177,7 @@ $upcoming_services = getUpcomingServices($conn);
         </div> <!-- end card-->
     </div> <!-- end col-->
 </div> <!-- end row-->
+
 
 
 
