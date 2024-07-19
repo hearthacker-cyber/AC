@@ -29,4 +29,15 @@
 
     <body class="loading" data-layout-color="dark" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
         <!-- Begin page -->
+        <?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['email'])) {
+    // Redirect to login page if not logged in
+    header('Location: login.html');
+    exit();
+}
+?>
+
         <div class="wrapper"></div>
