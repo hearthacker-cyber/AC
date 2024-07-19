@@ -36,7 +36,7 @@
                             </a>
                         </li>
 
-                        <li class="side-nav-title side-nav-item">Apps</li>
+                        <!--li class="side-nav-title side-nav-item">Apps</li>
 
                         <li class="side-nav-item">
                             <a href="apps-calendar.html" class="side-nav-link">
@@ -663,10 +663,10 @@
                                 </ul>
                             </div>
                         </li>
-                    </ul>
+                    </ul -->
 
                     <!-- Help Box -->
-                    <!-- <div class="help-box text-white text-center">
+                  <!--div class="help-box text-white text-center">
                         <a href="javascript: void(0);" class="float-end close-btn text-white">
                             <i class="mdi mdi-close"></i>
                         </a>
@@ -674,7 +674,7 @@
                         <h5 class="mt-3">Unlimited Access</h5>
                         <p class="mb-3">Upgrade to plan to get access to unlimited reports</p>
                         <a href="javascript: void(0);" class="btn btn-secondary btn-sm">Upgrade</a>
-                    </div> -->
+                    </div-->
                     <!-- end Help Box -->
                     <!-- End Sidebar -->
 

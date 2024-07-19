@@ -2,7 +2,7 @@
 <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="./customers.php" method="post">
+            <form action="add_cus.php" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addCustomerModalLabel">Add New Customer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="paymentMode" class="form-label">Payment Mode</label>
-                        <select class="form-control" id="paymentMode" name="paymentMode" required>
+                        <select class="form-control" id="paymentMode" name="paymentMode" required onchange="togglePaymentIdField()">
                             <option value="Cash">Cash</option>
                             <option value="Online Payment">Online Payment</option>
                         </select>
@@ -72,8 +72,17 @@ function toggleOtherServiceField() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function togglePaymentIdField() {
+    var paymentMode = document.getElementById('paymentMode').value;
     var paymentIdField = document.getElementById('paymentIdField');
-    paymentIdField.style.display = 'none';
+    if (paymentMode === 'Online Payment') {
+        paymentIdField.style.display = 'block';
+    } else {
+        paymentIdField.style.display = 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    togglePaymentIdField(); // Hide/show payment ID field on page load
 });
 </script>

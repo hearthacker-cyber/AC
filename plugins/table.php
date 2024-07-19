@@ -17,7 +17,7 @@ require_once 'layouts/includes/config.php';
 
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add New Customer</a>
+                            <a href="add_customer_model.php">Add New Customer</a>
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item">Export Data</a>
                         </div>
@@ -128,7 +128,7 @@ $upcoming_services = getUpcomingServices($conn);
                                 <th>Service Date</th>
                                 <th>Next Service Date</th>
                                 <th>Service Cost</th>
-                                <th>Send Message</th>
+                                <!-- <th>Actions</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -136,8 +136,6 @@ $upcoming_services = getUpcomingServices($conn);
                             // Display upcoming services
                             if ($upcoming_services->num_rows > 0) {
                                 while ($row = $upcoming_services->fetch_assoc()) {
-                                    $message = "Dear {$row['customer_name']}, your service of type '{$row['service_type']}' is coming up on {$row['next_service_date']}. The service cost is ₹{$row['service_cost']}. Please make yourself available. Thank you!";
-                                    $encoded_message = urlencode($message);
                                     echo "<tr>
                                             <td>{$row['customer_name']}</td>
                                             <td>{$row['phone_number']}</td>
@@ -146,12 +144,11 @@ $upcoming_services = getUpcomingServices($conn);
                                             <td>{$row['service_date']}</td>
                                             <td>{$row['next_service_date']}</td>
                                             <td>₹{$row['service_cost']}</td>
-                                            <td><a href='https://wa.me/{$row['phone_number']}?text={$encoded_message}' target='_blank' class='btn btn-success'>Send Message</a></td>
                                         </tr>";
                                 }
                                 $upcoming_services->free();
                             } else {
-                                echo "<tr><td colspan='8'>No upcoming services within the next 72 hours.</td></tr>";
+                                echo "<tr><td colspan='7'>No upcoming services within the next 72 hours.</td></tr>";
                             }
                             ?>
                         </tbody>
